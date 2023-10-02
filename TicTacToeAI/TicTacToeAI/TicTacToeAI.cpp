@@ -1,20 +1,100 @@
-// TicTacToeAI.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
+
+const int size = 4;
+
+bool checkIfXWins(char board[size][size], int moveX, int moveY, int size);
+void printBoard(char board[size][size]);
 
 int main()
 {
-    std::cout << "Hello World!\n";
+	bool xWins = false;
+
+	char mainBoard[size][size] = { { 'x','o','o','x'},
+								   { 'o','x','x','o'},
+								   { 'o','x','x','o'},
+								   { 'x','o','o','x'} };
+
+	printBoard(mainBoard);
+
+	xWins = checkIfXWins(mainBoard, 0, 0, size);
+	
+	std::cout << xWins;
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
+bool checkIfXWins(char board[][size], int moveX, int moveY, int size)
+{
+	int numInARow = 0;
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+	std::cout << board[moveX][moveY] << "\n";
+	
+	//Check Diagonal 1
+	//if (moveX == moveY) 
+	//{
+
+	//}
+
+	////Check Diagonal 2
+	//if (moveX + moveY == size - 1) 
+	//{
+
+	//}
+
+	//Check Horozontal
+
+	numInARow = 0;
+
+	for (int i = 0; i < size; i++) 
+	{
+		if (board[i][moveY] == 'X' || board[i][moveY] == 'x')
+		{
+			numInARow++;
+		}
+		else 
+		{
+			break;
+		}
+	}
+
+	if(numInARow == size)
+	{
+		return true;
+	}
+
+	//Check Vertical
+
+	numInARow = 0;
+
+	for (int i = 0; i < size; i++)
+	{
+		if (board[moveX][i] == 'X' || board[moveX][i] == 'x')
+		{
+			numInARow++;
+		}
+		else
+		{
+			break;
+		}
+	}
+
+	if (numInARow == size)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+void printBoard(char board[][size]) 
+{
+	for (int i = 0; i < size; i++)
+	{
+		for (int j = 0; j < size; j++) 
+		{
+			std::cout << board[i][j];
+		}
+		std::cout << "\n";
+	}
+}
+
+
+
