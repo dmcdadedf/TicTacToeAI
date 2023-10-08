@@ -2,8 +2,8 @@
 
 const int size = 3;
 
-bool checkIfXWins(char board[size][size], int moveX, int moveY, int size);
-bool checkIfOWins(char board[size][size], int moveX, int moveY, int size);
+bool checkIfXWins(char board[size][size], int size);
+bool checkIfOWins(char board[size][size], int size);
 void printBoard(char board[size][size]);
 void initBoard(char board[size][size], int size);
 
@@ -19,11 +19,11 @@ int main()
 	char mainBoard[size][size];
 	
 	initBoard(mainBoard, size);
-	
+
 	printBoard(mainBoard);
 
-	xWins = checkIfXWins(mainBoard, 0, 0, size);
-	oWins = checkIfOWins(mainBoard, 2, 2, size);
+	xWins = checkIfXWins(mainBoard, size);
+	oWins = checkIfOWins(mainBoard, size);
 	
 	if (xWins) {
 		std::cout << "X Wins";
@@ -39,108 +39,11 @@ struct Move {
 	int col;
 };
 
-bool checkIfXWins(char board[][size], int moveX, int moveY, int size)
+bool checkIfOWins(char board[][size], int size)
 {
 	int numInARow = 0;
 	
 	//Check Diagonal 1
-	if (moveX == moveY) 
-	{
-		numInARow = 0;
-
-		for (int i = 0; i < size; i++)
-		{
-			if (board[i][i] == 'X' || board[i][i] == 'x')
-			{
-				numInARow++;
-			}
-			else
-			{
-				break;
-			}
-		}
-
-		if (numInARow == size)
-		{
-			return true;
-		}
-	}
-
-	////Check Diagonal 2
-	if (moveX + moveY == size - 1) 
-	{
-		numInARow = 0;
-
-		for (int i = 0; i < size; i++)
-		{
-			if (board[size - i - 1][i] == 'X' || board[size - i - 1][i] == 'x')
-			{
-				numInARow++;
-			}
-			else
-			{
-				break;
-			}
-		}
-
-		if (numInARow == size)
-		{
-			return true;
-		}
-	}
-
-	//Check Horozontal
-
-	numInARow = 0;
-
-	for (int i = 0; i < size; i++) 
-	{
-		if (board[i][moveY] == 'X' || board[i][moveY] == 'x')
-		{
-			numInARow++;
-		}
-		else 
-		{
-			break;
-		}
-	}
-
-	if(numInARow == size)
-	{
-		return true;
-	}
-
-	//Check Vertical
-
-	numInARow = 0;
-
-	for (int i = 0; i < size; i++)
-	{
-		if (board[moveX][i] == 'X' || board[moveX][i] == 'x')
-		{
-			numInARow++;
-		}
-		else
-		{
-			break;
-		}
-	}
-
-	if (numInARow == size)
-	{
-		return true;
-	}
-
-	return false;
-}
-
-bool checkIfOWins(char board[][size], int moveX, int moveY, int size)
-{
-	int numInARow = 0;
-
-	//Check Diagonal 1
-	if (moveX == moveY)
-	{
 		numInARow = 0;
 
 		for (int i = 0; i < size; i++)
@@ -159,11 +62,8 @@ bool checkIfOWins(char board[][size], int moveX, int moveY, int size)
 		{
 			return true;
 		}
-	}
 
 	////Check Diagonal 2
-	if (moveX + moveY == size - 1)
-	{
 		numInARow = 0;
 
 		for (int i = 0; i < size; i++)
@@ -182,15 +82,68 @@ bool checkIfOWins(char board[][size], int moveX, int moveY, int size)
 		{
 			return true;
 		}
-	}
 
 	//Check Horozontal
 
 	numInARow = 0;
 
+	for (int i = 0; i < size; i++) 
+	{
+		for (int j = 0; j < size; j++)
+		{
+			if (board[i][j] == 'O' || board[i][j] == 'o')
+			{
+				numInARow++;
+			}
+			else
+			{
+				break;
+			}
+		}
+	}
+
+	if(numInARow == size)
+	{
+		return true;
+	}
+
+	//Check Vertical
+	
+	numInARow = 0;
+
 	for (int i = 0; i < size; i++)
 	{
-		if (board[i][moveY] == 'O' || board[i][moveY] == 'o')
+		for (int j = 0; j < size; j++)
+		{
+			if (board[i][j] == 'O' || board[i][j] == 'o')
+			{
+				numInARow++;
+			}
+			else
+			{
+				break;
+			}
+		}
+	}
+
+	if (numInARow == size)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool checkIfXWins(char board[][size], int size)
+{
+	int numInARow = 0;
+
+	//Check Diagonal 1
+	numInARow = 0;
+
+	for (int i = 0; i < size; i++)
+	{
+		if (board[i][i] == 'X' || board[i][i] == 'x')
 		{
 			numInARow++;
 		}
@@ -205,19 +158,66 @@ bool checkIfOWins(char board[][size], int moveX, int moveY, int size)
 		return true;
 	}
 
-	//Check Vertical
-
+	////Check Diagonal 2
 	numInARow = 0;
 
 	for (int i = 0; i < size; i++)
 	{
-		if (board[moveX][i] == 'O' || board[moveX][i] == 'o')
+		if (board[size - i - 1][i] == 'X' || board[size - i - 1][i] == 'x')
 		{
 			numInARow++;
 		}
 		else
 		{
 			break;
+		}
+	}
+
+	if (numInARow == size)
+	{
+		return true;
+	}
+
+	//Check Horozontal
+
+	numInARow = 0;
+
+	for (int i = 0; i < size; i++)
+	{
+		for (int j = 0; j < size; j++)
+		{
+			if (board[i][j] == 'X' || board[i][j] == 'x')
+			{
+				numInARow++;
+			}
+			else
+			{
+				break;
+			}
+		}
+	}
+
+	if (numInARow == size)
+	{
+		return true;
+	}
+
+	//Check Vertical
+
+	numInARow = 0;
+
+	for (int i = 0; i < size; i++)
+	{
+		for (int j = 0; j < size; j++)
+		{
+			if (board[i][j] == 'X' || board[i][j] == 'x')
+			{
+				numInARow++;
+			}
+			else
+			{
+				break;
+			}
 		}
 	}
 
@@ -251,7 +251,7 @@ Move findBestMove(char board[size][size]) {
 		for (int j = 0; j < size; j++) {
 			if (board[i][j] == '_') {
 				board[i][j] = 'x';
-				int moveVal = (board, 0, false);
+				int moveVal = miniMax(board, 0, false);
 				board[i][j] = '_';
 				if (moveVal > bestVal) {
 					bestVal = moveVal;
@@ -266,9 +266,9 @@ Move findBestMove(char board[size][size]) {
 
 int miniMax(char board[size][size], int depth, bool isMaximizing) {
 	int score;
-	if (checkIfXWins) {
-		return 10;
-	}
+	//if (checkIfXWins()) {
+		//return 10;
+	//}
 	/*if (checkIfOWins) {
 		return -10;
 	}*/
