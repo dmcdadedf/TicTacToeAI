@@ -5,6 +5,8 @@ const int size = 3;
 bool checkIfXWins(char board[size][size], int moveX, int moveY, int size);
 bool checkIfOWins(char board[size][size], int moveX, int moveY, int size);
 void printBoard(char board[size][size]);
+void initBoard(char board[size][size], int size);
+
 struct Move;
 Move findBestMove(char board[size][size]);
 int miniMax(char board[size][size], int depth, bool isMaximizing);
@@ -14,10 +16,10 @@ int main()
 	bool xWins = false;
 	bool oWins = false;
 
-	char mainBoard[size][size] = { { 'x','_','_'},
-								   { 'x','_','_'},
-								   { 'x','_','_'} };
-
+	char mainBoard[size][size];
+	
+	initBoard(mainBoard, size);
+	
 	printBoard(mainBoard);
 
 	xWins = checkIfXWins(mainBoard, 0, 0, size);
@@ -248,7 +250,7 @@ Move findBestMove(char board[size][size]) {
 	for (int i = 0; i < size; i++) {
 		for (int j = 0; j < size; j++) {
 			if (board[i][j] == '_') {
-				board[i][j] == 'x';
+				board[i][j] = 'x';
 				int moveVal = (board, 0, false);
 				board[i][j] = '_';
 				if (moveVal > bestVal) {
@@ -278,7 +280,7 @@ int miniMax(char board[size][size], int depth, bool isMaximizing) {
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
 				if (board[i][j] == '_') {
-					board[i][j] == 'X';
+					board[i][j] = 'X';
 					bestVal = std::max(bestVal, miniMax(board, depth + 1, false));
 				}
 				board[i][j] = '_';
@@ -292,7 +294,7 @@ int miniMax(char board[size][size], int depth, bool isMaximizing) {
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
 				if (board[i][j] == '_') {
-					board[i][j] == 'O';
+					board[i][j] = 'O';
 					bestVal = std::min(bestVal, miniMax(board, depth + 1, true));
 				}
 				board[i][j] = '_';
@@ -303,3 +305,13 @@ int miniMax(char board[size][size], int depth, bool isMaximizing) {
 	}
 }
 
+void initBoard(char board[][size], int size) 
+{
+	for (int i = 0; i < size; i++) 
+	{
+		for (int j = 0; j < size; j++) 
+		{
+			board[j][i] = '_';
+		}
+	}
+}

@@ -1,2 +1,5 @@
 ﻿  TicTacToeAI.cpp
+C:\Users\mcdad\Documents\GitHub\TicTacToeAI\TicTacToeAI\TicTacToeAI\TicTacToeAI.cpp(269,6): warning C4551: function call missing argument list
+C:\Users\mcdad\Documents\GitHub\TicTacToeAI\TicTacToeAI\TicTacToeAI\TicTacToeAI.cpp(268,6): warning C4101: 'score': unreferenced local variable
+C:\Users\mcdad\Documents\GitHub\TicTacToeAI\TicTacToeAI\TicTacToeAI\TicTacToeAI.cpp(265): warning C4715: 'findBestMove': not all control paths return a value
   TicTacToeAI.vcxproj -> C:\Users\mcdad\Documents\GitHub\TicTacToeAI\TicTacToeAI\x64\Debug\TicTacToeAI.exe
