@@ -1,4 +1,7 @@
 #include <iostream>
+#include <chrono>
+
+using namespace std::chrono;
 
 const int size = 3;
 
@@ -8,8 +11,8 @@ void printBoard(char* board[size]);
 void initBoard(char* board[size], int size);
 
 struct Move {
-	int row;
-	int col;
+	int row = -1;
+	int col = -1;
 };
 
 Move findBestMove(char* board[size]);
@@ -18,6 +21,7 @@ bool isMovesLeft(char* board[size], int size);
 
 int main()
 {
+	auto start = high_resolution_clock::now();
 	bool xWins = false;
 	bool oWins = false;
 
@@ -55,6 +59,13 @@ int main()
 	for (int i = 0; i < size; i++)
 		delete[] mainBoard[i];
 	delete[] mainBoard;
+
+	
+	auto stop = high_resolution_clock::now();
+	auto duration = duration_cast<milliseconds>(stop - start);
+
+	std::cout << "Runtime: " << duration.count() << " milliseconds";
+	
 
 	return 0;
 	
