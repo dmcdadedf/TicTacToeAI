@@ -7,7 +7,11 @@ bool checkIfOWins(char board[size][size], int size);
 void printBoard(char board[size][size]);
 void initBoard(char board[size][size], int size);
 
-struct Move;
+struct Move {
+	int row;
+	int col;
+};
+
 Move findBestMove(char board[size][size]);
 int miniMax(char board[size][size], int depth, bool isMaximizing);
 bool isMovesLeft(char board[size][size], int size);
@@ -21,24 +25,38 @@ int main()
 	
 	initBoard(mainBoard, size);
 
-	printBoard(mainBoard);
+	Move xMove , yMove;
 
-	xWins = checkIfXWins(mainBoard, size);
-	oWins = checkIfOWins(mainBoard, size);
+	printBoard(mainBoard);
+	
+	while (isMovesLeft && !xWins && !oWins) 
+	{
+		xMove = findBestMove(mainBoard);
+		mainBoard[xMove.row][xMove.col] = 'x';
+		printBoard(mainBoard);
+
+		yMove = findBestMove(mainBoard);
+		mainBoard[yMove.row][yMove.col] = 'o';
+		printBoard(mainBoard);
+		xWins = checkIfXWins(mainBoard, size);
+		oWins = checkIfOWins(mainBoard, size);
+	}
+
+	printBoard(mainBoard);
 	
 	if (xWins) {
 		std::cout << "X Wins";
 	}
-	if (oWins) {
+	else if (oWins) {
 		std::cout << "O Wins";
+	}
+	else 
+	{
+		std::cout << "Tie";
 	}
 	
 }
 
-struct Move {
-	int row;
-	int col;
-};
 
 bool checkIfOWins(char board[][size], int size)
 {
@@ -261,8 +279,9 @@ Move findBestMove(char board[size][size]) {
 				}
 			}
 		}
-		return bestMove;
+		
 	}
+	return bestMove;
 }
 
 int miniMax(char board[size][size], int depth, bool isMaximizing) {
