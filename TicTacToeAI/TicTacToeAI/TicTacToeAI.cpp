@@ -2,47 +2,44 @@
 
 const int size = 3;
 
-bool checkIfXWins(char board[size][size], int size);
-bool checkIfOWins(char board[size][size], int size);
-void printBoard(char board[size][size]);
-void initBoard(char board[size][size], int size);
+bool checkIfXWins(char* board[size], int size);
+bool checkIfOWins(char* board[size], int size);
+void printBoard(char* board[size]);
+void initBoard(char* board[size], int size);
 
 struct Move {
 	int row;
 	int col;
 };
 
-Move findBestMove(char board[size][size]);
-int miniMax(char board[size][size], int depth, bool isMaximizing);
-bool isMovesLeft(char board[size][size], int size);
+Move findBestMove(char* board[size]);
+int miniMax(char* board[size], int depth, bool isMaximizing);
+bool isMovesLeft(char* board[size], int size);
 
 int main()
 {
 	bool xWins = false;
 	bool oWins = false;
 
-	char mainBoard[size][size];
+	char** mainBoard = new char* [size];
+
+	for (int i = 0; i < size; i++) 
+	{
+
+		mainBoard[i] = new char[size];
+	}
 	
 	initBoard(mainBoard, size);
 
+	printBoard(mainBoard);
+
 	Move xMove , yMove;
-
-	printBoard(mainBoard);
 	
-	while (isMovesLeft && !xWins && !oWins) 
-	{
-		xMove = findBestMove(mainBoard);
-		mainBoard[xMove.row][xMove.col] = 'x';
-		printBoard(mainBoard);
-
-		yMove = findBestMove(mainBoard);
-		mainBoard[yMove.row][yMove.col] = 'o';
-		printBoard(mainBoard);
-		xWins = checkIfXWins(mainBoard, size);
-		oWins = checkIfOWins(mainBoard, size);
-	}
-
+	xMove = findBestMove(mainBoard);
+	std::cout << xMove.col << " " << xMove.row;
+	//mainBoard[xMove.row][xMove.col] = 'x';
 	printBoard(mainBoard);
+
 	
 	if (xWins) {
 		std::cout << "X Wins";
@@ -54,11 +51,17 @@ int main()
 	{
 		std::cout << "Tie";
 	}
+
+	for (int i = 0; i < size; i++)
+		delete[] mainBoard[i];
+	delete[] mainBoard;
+
+	return 0;
 	
 }
 
 
-bool checkIfOWins(char board[][size], int size)
+bool checkIfOWins(char* board[size], int size)
 {
 	int numInARow = 0;
 	
@@ -153,7 +156,7 @@ bool checkIfOWins(char board[][size], int size)
 	return false;
 }
 
-bool checkIfXWins(char board[][size], int size)
+bool checkIfXWins(char* board[size], int size)
 {
 	int numInARow = 0;
 
@@ -248,7 +251,7 @@ bool checkIfXWins(char board[][size], int size)
 	return false;
 }
 
-void printBoard(char board[][size]) 
+void printBoard(char* board[size]) 
 {
 	for (int i = 0; i < size; i++)
 	{
@@ -260,7 +263,7 @@ void printBoard(char board[][size])
 	}
 }
 
-Move findBestMove(char board[size][size]) {
+Move findBestMove(char* board[size]) {
 	int bestVal = 0;
 	Move bestMove;
 	bestMove.col = -1;
@@ -284,7 +287,7 @@ Move findBestMove(char board[size][size]) {
 	return bestMove;
 }
 
-int miniMax(char board[size][size], int depth, bool isMaximizing) {
+int miniMax(char* board[size], int depth, bool isMaximizing) {
 	int score;
 	if (checkIfXWins(board, size)){
 		return 10;
@@ -325,21 +328,22 @@ int miniMax(char board[size][size], int depth, bool isMaximizing) {
 	}
 }
 
-void initBoard(char board[][size], int size) 
+void initBoard(char* board[size], int size) 
 {
-	for (int i = 0; i < size; i++) 
-	{
-		for (int j = 0; j < size; j++) 
-		{
-			board[j][i] = '_';
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size; j++) {
+
+			// Assign values to the
+			// memory blocks created
+			board[i][j] = '_';
 		}
 	}
 }
 
-bool isMovesLeft(char board[size][size], int size) {
+bool isMovesLeft(char* board[size], int size) {
 	for (int i = 0; i < size; i++) {
 		for (int j = 0; j < size; j++) {
-			if (board[i][j] == '-') {
+			if (board[i][j] == '_') {
 				return false;
 			}
 		}
