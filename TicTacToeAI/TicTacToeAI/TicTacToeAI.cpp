@@ -273,7 +273,7 @@ int miniMax(char board[size][size], int depth, bool isMaximizing) {
 	if (checkIfOWins(board, size)) {
 		return -10;
 	}
-	if (isMovesLeft(board, size)) {
+	if (!isMovesLeft(board, size)) {
 		return 0;
 	}
 	if (isMaximizing) {
