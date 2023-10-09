@@ -10,6 +10,7 @@ void initBoard(char board[size][size], int size);
 struct Move;
 Move findBestMove(char board[size][size]);
 int miniMax(char board[size][size], int depth, bool isMaximizing);
+bool isMovesLeft(char board[size][size], int size);
 
 int main()
 {
@@ -266,15 +267,15 @@ Move findBestMove(char board[size][size]) {
 
 int miniMax(char board[size][size], int depth, bool isMaximizing) {
 	int score;
-	//if (checkIfXWins()) {
-		//return 10;
-	//}
-	/*if (checkIfOWins) {
+	if (checkIfXWins(board, size)){
+		return 10;
+	}
+	if (checkIfOWins(board, size)) {
 		return -10;
-	}*/
-	/*if (isMovesLeft(board)) {
+	}
+	if (isMovesLeft(board, size)) {
 		return 0;
-	}*/
+	}
 	if (isMaximizing) {
 		int bestVal = -1000;
 		for (int i = 0; i < size; i++) {
@@ -314,4 +315,15 @@ void initBoard(char board[][size], int size)
 			board[j][i] = '_';
 		}
 	}
+}
+
+bool isMovesLeft(char board[size][size], int size) {
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size; j++) {
+			if (board[i][j] == '-') {
+				return false;
+			}
+		}
+	}
+	return true;
 }
