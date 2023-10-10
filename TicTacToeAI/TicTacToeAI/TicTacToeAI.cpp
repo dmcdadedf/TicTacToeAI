@@ -3,7 +3,8 @@
 
 using namespace std::chrono;
 
-const int size = 70;
+const int size = 120;
+
 int numOfNodesExplored = 0;
 
 bool checkIfXWins(char* board[size], int size);
@@ -12,8 +13,8 @@ void printBoard(char* board[size]);
 void initBoard(char* board[size], int size);
 
 struct Move {
-	int row = -1;
-	int col = -1;
+	int row = -100;
+	int col = -100;
 };
 
 Move findBestMove(char* board[size]);
@@ -26,6 +27,7 @@ int main()
 	bool oWins = false;
 	bool tie = false;
 	bool xTurn = true;
+	int movesMade = 0;
 	char userInput = '_';
 	while (userInput != 'X' && userInput != 'x' && userInput != 'O' && userInput != 'o')
 	{
@@ -63,7 +65,8 @@ int main()
 		if (xTurn)
 		{
 			xMove = findBestMove(mainBoard);
-			std::cout << "Xs Move:" << xMove.col << " " << xMove.row << "\n";
+			movesMade++;
+			std::cout << movesMade << ". Xs Move:" << xMove.col << " " << xMove.row << "\n";
 			mainBoard[xMove.row][xMove.col] = 'x';
 			xWins = checkIfXWins(mainBoard, size);
 			xTurn = false;
@@ -71,7 +74,8 @@ int main()
 		else
 		{
 			oMove = findBestMove(mainBoard);
-			std::cout << "Os Move:" << oMove.col << " " << oMove.row << "\n";
+			movesMade++;
+			std::cout << movesMade << ". Os Move:" << oMove.col << " " << oMove.row << "\n";
 			mainBoard[oMove.row][oMove.col] = 'o';
 			oWins = checkIfOWins(mainBoard, size);
 			xTurn = true;
@@ -288,11 +292,25 @@ void printBoard(char* board[size])
 {
 	for (int i = 0; i < size; i++)
 	{
+		std::cout << "\n ";
+
 		for (int j = 0; j < size; j++) 
 		{
 			std::cout << board[j][i];
+			if (j != size - 1) 
+			{
+				std::cout << " | ";
+			}
 		}
 		std::cout << "\n";
+		for (int j = 0; j < size; j++)
+		{
+			
+			if (i != size - 1)
+			{
+				std::cout << "----";
+			}
+		}
 	}
 	std::cout << "\n";
 }

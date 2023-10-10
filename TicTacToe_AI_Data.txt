@@ -1,1 +1,23 @@
-Size:100  Memory:  .3mb  Time:1,664,021ms  Nodes: 12,007,450
+1.  Size:3    Memory:712  Time:8ms  Nodes:42
+2.  Size:4    Memory:712  Time:30ms Nodes:325
+3.  Size:5    Memory:  Time:  Nodes:
+4.  Size:10   Memory:  Time:  Nodes:
+5.  Size:20   Memory:  Time:  Nodes:
+6.  Size:30   Memory:  Time:  Nodes:
+7.  Size:40   Memory:  Time:  Nodes:
+8.  Size:50   Memory:  Time:  Nodes:
+9.  Size:60   Memory:  Time:  Nodes:
+10. Size:70   Memory:  Time:  Nodes:
+11. Size:80   Memory:  Time:  Nodes:
+12. Size:90   Memory:  Time:  Nodes:
+13. Size:100  Memory:  Time:  Nodes:
+14. Size:110  Memory:  Time:  Nodes:
+15. Size:120  Memory:  Time:  Nodes:
+16. Size:130  Memory:  Time:  Nodes:
+17. Size:140  Memory:  Time:  Nodes:
+18. Size:150  Memory:  Time:  Nodes:
+19. Size:160  Memory:  Time:  Nodes:
+20. Size:170  Memory:  Time:  Nodes:
+21. Size:180  Memory:  Time:  Nodes:
+22. Size:190  Memory:  Time:  Nodes:
+23. Size:200  Memory:  Time:  Nodes:
