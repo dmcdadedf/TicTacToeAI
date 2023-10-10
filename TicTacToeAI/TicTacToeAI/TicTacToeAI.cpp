@@ -3,7 +3,7 @@
 
 using namespace std::chrono;
 
-const int size = 4;
+const int size = 70;
 int numOfNodesExplored = 0;
 
 bool checkIfXWins(char* board[size], int size);
@@ -65,7 +65,6 @@ int main()
 			xMove = findBestMove(mainBoard);
 			std::cout << "Xs Move:" << xMove.col << " " << xMove.row << "\n";
 			mainBoard[xMove.row][xMove.col] = 'x';
-			printBoard(mainBoard);
 			xWins = checkIfXWins(mainBoard, size);
 			xTurn = false;
 		}
@@ -74,7 +73,6 @@ int main()
 			oMove = findBestMove(mainBoard);
 			std::cout << "Os Move:" << oMove.col << " " << oMove.row << "\n";
 			mainBoard[oMove.row][oMove.col] = 'o';
-			printBoard(mainBoard);
 			oWins = checkIfOWins(mainBoard, size);
 			xTurn = true;
 		}
@@ -341,8 +339,9 @@ int miniMax(char* board[size], int depth, bool isMaximizing) {
 				if (board[i][j] == '_') {
 					board[i][j] = 'X';
 					bestVal = std::max(bestVal, miniMax(board, depth + 1, false));
+					board[i][j] = '_';
 				}
-				board[i][j] = '_';
+				
 			}
 
 		}
@@ -352,11 +351,13 @@ int miniMax(char* board[size], int depth, bool isMaximizing) {
 		int bestVal = 1000;
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
-				if (board[i][j] == '_') {
+				if (board[i][j] == '_') 
+				{
 					board[i][j] = 'O';
 					bestVal = std::min(bestVal, miniMax(board, depth + 1, true));
+					board[i][j] = '_';
 				}
-				board[i][j] = '_';
+				
 			}
 
 		}
