@@ -3,7 +3,8 @@
 
 using namespace std::chrono;
 
-const int size = 3;
+const int size = 4;
+int numOfNodesExplored = 0;
 
 bool checkIfXWins(char* board[size], int size);
 bool checkIfOWins(char* board[size], int size);
@@ -21,51 +22,89 @@ bool isMovesLeft(char* board[size], int size);
 
 int main()
 {
-	auto start = high_resolution_clock::now();
 	bool xWins = false;
 	bool oWins = false;
+	bool tie = false;
+	bool xTurn = true;
+	char userInput = '_';
+	while (userInput != 'X' && userInput != 'x' && userInput != 'O' && userInput != 'o')
+	{
+		std::cout << "Who Goes First? X or O \n";
+		std::cin >> userInput;
+		if (userInput == 'X' || userInput == 'x') 
+		{
+			xTurn = true;
+		}
+		else if (userInput == 'O' || userInput == 'o')
+		{
+			xTurn = false;
+		}
+		else
+		{
+			std::cout << "Please enter a valid input: X or O\n";
+		}
+		
+	}
+	auto start = high_resolution_clock::now();
 
 	char** mainBoard = new char* [size];
 
 	for (int i = 0; i < size; i++) 
 	{
-
 		mainBoard[i] = new char[size];
 	}
 	
 	initBoard(mainBoard, size);
 
-	printBoard(mainBoard);
+	Move xMove , oMove;
 
-	Move xMove , yMove;
-	
-	xMove = findBestMove(mainBoard);
-	std::cout << xMove.col << " " << xMove.row;
-	//mainBoard[xMove.row][xMove.col] = 'x';
-	printBoard(mainBoard);
-
+	while(!xWins && !oWins && !tie)
+	{
+		if (xTurn)
+		{
+			xMove = findBestMove(mainBoard);
+			std::cout << "Xs Move:" << xMove.col << " " << xMove.row << "\n";
+			mainBoard[xMove.row][xMove.col] = 'x';
+			printBoard(mainBoard);
+			xWins = checkIfXWins(mainBoard, size);
+			xTurn = false;
+		}
+		else
+		{
+			oMove = findBestMove(mainBoard);
+			std::cout << "Os Move:" << oMove.col << " " << oMove.row << "\n";
+			mainBoard[oMove.row][oMove.col] = 'o';
+			printBoard(mainBoard);
+			oWins = checkIfOWins(mainBoard, size);
+			xTurn = true;
+		}
+		if (isMovesLeft(mainBoard, size)) 
+		{
+			tie = true;
+		}
+	}
 	
 	if (xWins) {
-		std::cout << "X Wins";
+		std::cout << "\n X Wins \n";
 	}
 	else if (oWins) {
-		std::cout << "O Wins";
+		std::cout << "\n O Wins \n";
 	}
 	else 
 	{
-		std::cout << "Tie";
+		std::cout << "\n Tie \n";
 	}
+	printBoard(mainBoard);
 
 	for (int i = 0; i < size; i++)
 		delete[] mainBoard[i];
 	delete[] mainBoard;
 
-	
 	auto stop = high_resolution_clock::now();
 	auto duration = duration_cast<milliseconds>(stop - start);
 
-	std::cout << "Runtime: " << duration.count() << " milliseconds";
-	
+	std::cout << "Runtime: " << duration.count() << " milliseconds\n";
+	std::cout << "Number of Nodes Explored:" << numOfNodesExplored << "\n";
 
 	return 0;
 	
@@ -85,10 +124,6 @@ bool checkIfOWins(char* board[size], int size)
 			{
 				numInARow++;
 			}
-			else
-			{
-				break;
-			}
 		}
 
 		if (numInARow == size)
@@ -104,10 +139,6 @@ bool checkIfOWins(char* board[size], int size)
 			if (board[size - i - 1][i] == 'O' || board[size - i - 1][i] == 'o')
 			{
 				numInARow++;
-			}
-			else
-			{
-				break;
 			}
 		}
 
@@ -128,41 +159,41 @@ bool checkIfOWins(char* board[size], int size)
 			{
 				numInARow++;
 			}
-			else
-			{
-				break;
-			}
 		}
-	}
+		if (numInARow == size)
+		{
+			return true;
+		}
 
-	if(numInARow == size)
-	{
-		return true;
+		numInARow = 0;
+		
 	}
 
 	//Check Vertical
 	
 	numInARow = 0;
 
-	for (int i = 0; i < size; i++)
+	for (int j = 0; j < size; j++)
 	{
-		for (int j = 0; j < size; j++)
+		for (int i = 0; i < size; i++)
 		{
 			if (board[i][j] == 'O' || board[i][j] == 'o')
 			{
 				numInARow++;
 			}
-			else
-			{
-				break;
-			}
+
+		}
+		if (numInARow == size)
+		{
+			return true;
+		}
+		else
+		{
+			numInARow = 0;
 		}
 	}
 
-	if (numInARow == size)
-	{
-		return true;
-	}
+	
 
 	return false;
 }
@@ -180,18 +211,15 @@ bool checkIfXWins(char* board[size], int size)
 		{
 			numInARow++;
 		}
-		else
-		{
-			break;
-		}
 	}
-
 	if (numInARow == size)
 	{
 		return true;
 	}
 
-	////Check Diagonal 2
+	
+
+	//Check Diagonal 2
 	numInARow = 0;
 
 	for (int i = 0; i < size; i++)
@@ -200,16 +228,14 @@ bool checkIfXWins(char* board[size], int size)
 		{
 			numInARow++;
 		}
-		else
-		{
-			break;
-		}
 	}
 
 	if (numInARow == size)
 	{
 		return true;
 	}
+
+	
 
 	//Check Horozontal
 
@@ -223,40 +249,38 @@ bool checkIfXWins(char* board[size], int size)
 			{
 				numInARow++;
 			}
-			else
-			{
-				break;
-			}
 		}
-	}
-
-	if (numInARow == size)
-	{
-		return true;
+		if (numInARow == size)
+		{
+			return true;
+		}
+		else
+		{
+			numInARow = 0;
+		}
 	}
 
 	//Check Vertical
 
 	numInARow = 0;
 
-	for (int i = 0; i < size; i++)
+	for (int j = 0; j < size; j++)
 	{
-		for (int j = 0; j < size; j++)
+		for (int i = 0; i < size; i++)
 		{
 			if (board[i][j] == 'X' || board[i][j] == 'x')
 			{
 				numInARow++;
 			}
-			else
-			{
-				break;
-			}
 		}
-	}
-
-	if (numInARow == size)
-	{
-		return true;
+		if (numInARow == size)
+		{
+			return true;
+		}
+		else
+		{
+			numInARow = 0;
+		}
 	}
 
 	return false;
@@ -272,13 +296,14 @@ void printBoard(char* board[size])
 		}
 		std::cout << "\n";
 	}
+	std::cout << "\n";
 }
 
 Move findBestMove(char* board[size]) {
-	int bestVal = 0;
+	int bestVal = -100;
 	Move bestMove;
-	bestMove.col = -1;
-	bestMove.row = -1;
+	bestMove.col = -100;
+	bestMove.row = -100;
 
 	for (int i = 0; i < size; i++) {
 		for (int j = 0; j < size; j++) {
@@ -293,12 +318,12 @@ Move findBestMove(char* board[size]) {
 				}
 			}
 		}
-		
 	}
 	return bestMove;
 }
 
 int miniMax(char* board[size], int depth, bool isMaximizing) {
+	numOfNodesExplored++;
 	int score;
 	if (checkIfXWins(board, size)){
 		return 10;
