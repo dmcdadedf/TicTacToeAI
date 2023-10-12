@@ -1,9 +1,12 @@
+//Project: Tic-Tac-Toe MiniMax AI     Date: 10/01/23
+//Authors: David McDade, Jared Rivard
+
 #include <iostream>
 #include <chrono>
 
 using namespace std::chrono;
 
-const int size = 120;
+const int size = 10;
 
 int numOfNodesExplored = 0;
 
@@ -341,20 +344,27 @@ Move findBestMove(char* board[size]) {
 int miniMax(char* board[size], int depth, bool isMaximizing) {
 	numOfNodesExplored++;
 	int score;
-	if (checkIfXWins(board, size)){
+	if (checkIfXWins(board, size))
+	{
 		return 10;
 	}
-	if (checkIfOWins(board, size)) {
+	if (checkIfOWins(board, size)) 
+	{
 		return -10;
 	}
-	if (!isMovesLeft(board, size)) {
+	if (!isMovesLeft(board, size)) 
+	{
 		return 0;
 	}
-	if (isMaximizing) {
+	if (isMaximizing) 
+	{
 		int bestVal = -1000;
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
-				if (board[i][j] == '_') {
+		for (int i = 0; i < size; i++) 
+		{
+			for (int j = 0; j < size; j++) 
+			{
+				if (board[i][j] == '_') 
+				{
 					board[i][j] = 'X';
 					bestVal = std::max(bestVal, miniMax(board, depth + 1, false));
 					board[i][j] = '_';
@@ -365,10 +375,13 @@ int miniMax(char* board[size], int depth, bool isMaximizing) {
 		}
 		return bestVal;
 	}
-	else {
+	else 
+	{
 		int bestVal = 1000;
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
+		for (int i = 0; i < size; i++) 
+		{
+			for (int j = 0; j < size; j++) 
+			{
 				if (board[i][j] == '_') 
 				{
 					board[i][j] = 'O';
@@ -385,20 +398,22 @@ int miniMax(char* board[size], int depth, bool isMaximizing) {
 
 void initBoard(char* board[size], int size) 
 {
-	for (int i = 0; i < size; i++) {
-		for (int j = 0; j < size; j++) {
-
-			// Assign values to the
-			// memory blocks created
+	for (int i = 0; i < size; i++) 
+	{
+		for (int j = 0; j < size; j++) 
+		{
 			board[i][j] = '_';
 		}
 	}
 }
 
 bool isMovesLeft(char* board[size], int size) {
-	for (int i = 0; i < size; i++) {
-		for (int j = 0; j < size; j++) {
-			if (board[i][j] == '_') {
+	for (int i = 0; i < size; i++) 
+	{
+		for (int j = 0; j < size; j++) 
+		{
+			if (board[i][j] == '_') 
+			{
 				return false;
 			}
 		}

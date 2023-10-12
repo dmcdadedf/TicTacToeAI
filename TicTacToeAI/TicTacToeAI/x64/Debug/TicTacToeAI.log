@@ -1,3 +1,3 @@
 ﻿  TicTacToeAI.cpp
-C:\Users\mcdad\Documents\GitHub\TicTacToeAI\TicTacToeAI\TicTacToeAI\TicTacToeAI.cpp(343,6): warning C4101: 'score': unreferenced local variable
+C:\Users\mcdad\Documents\GitHub\TicTacToeAI\TicTacToeAI\TicTacToeAI\TicTacToeAI.cpp(346,6): warning C4101: 'score': unreferenced local variable
   TicTacToeAI.vcxproj -> C:\Users\mcdad\Documents\GitHub\TicTacToeAI\TicTacToeAI\x64\Debug\TicTacToeAI.exe
