@@ -6,7 +6,7 @@
 
 using namespace std::chrono;
 
-const int size = 10;
+const int size = 5;
 
 int numOfNodesExplored = 0;
 
@@ -30,26 +30,10 @@ int main()
 	bool oWins = false;
 	bool tie = false;
 	bool xTurn = true;
+	bool validMove = false;
 	int movesMade = 0;
-	char userInput = '_';
-	while (userInput != 'X' && userInput != 'x' && userInput != 'O' && userInput != 'o')
-	{
-		std::cout << "Who Goes First? X or O \n";
-		std::cin >> userInput;
-		if (userInput == 'X' || userInput == 'x') 
-		{
-			xTurn = true;
-		}
-		else if (userInput == 'O' || userInput == 'o')
-		{
-			xTurn = false;
-		}
-		else
-		{
-			std::cout << "Please enter a valid input: X or O\n";
-		}
-		
-	}
+	char userInput = ' ';
+
 	auto start = high_resolution_clock::now();
 
 	char** mainBoard = new char* [size];
@@ -63,14 +47,42 @@ int main()
 
 	Move xMove , oMove;
 
+	printBoard(mainBoard);
+
 	while(!xWins && !oWins && !tie)
 	{
 		if (xTurn)
 		{
-			xMove = findBestMove(mainBoard);
+			validMove = false;
+
+			while (!validMove) {
+
+				xMove.col = -1;
+				xMove.row = -1;
+				while (xMove.row < 0 || xMove.row > size - 1) {
+					std::cout << "Choose a row to play in: \n";
+					std::cin >> xMove.row;
+					if (xMove.row < 0 || xMove.row > size - 1) {
+						std::cout << "Please enter a valid number. \n";
+					}
+				}
+				while (xMove.col < 0 || xMove.col > size - 1) {
+					std::cout << "Choose a column to play in: \n";
+					std::cin >> xMove.col;
+					if (xMove.col < 0 || xMove.col > size - 1) {
+						std::cout << "Please enter a valid number. \n";
+					}
+				}
+				if (mainBoard[xMove.col][xMove.row] == ' ') {
+					validMove = true;
+				}
+				else {
+					std::cout << "Please enter a move in an empty space. \n";
+				}
+			}
 			movesMade++;
-			std::cout << movesMade << ". Xs Move:" << xMove.col << " " << xMove.row << "\n";
-			mainBoard[xMove.row][xMove.col] = 'x';
+			mainBoard[xMove.col][xMove.row] = 'x';
+			printBoard(mainBoard);
 			xWins = checkIfXWins(mainBoard, size);
 			xTurn = false;
 		}
@@ -78,8 +90,8 @@ int main()
 		{
 			oMove = findBestMove(mainBoard);
 			movesMade++;
-			std::cout << movesMade << ". Os Move:" << oMove.col << " " << oMove.row << "\n";
 			mainBoard[oMove.row][oMove.col] = 'o';
+			printBoard(mainBoard);
 			oWins = checkIfOWins(mainBoard, size);
 			xTurn = true;
 		}
@@ -99,7 +111,6 @@ int main()
 	{
 		std::cout << "\n Tie \n";
 	}
-	printBoard(mainBoard);
 
 	for (int i = 0; i < size; i++)
 		delete[] mainBoard[i];
@@ -326,10 +337,10 @@ Move findBestMove(char* board[size]) {
 
 	for (int i = 0; i < size; i++) {
 		for (int j = 0; j < size; j++) {
-			if (board[i][j] == '_') {
+			if (board[i][j] == ' ') {
 				board[i][j] = 'x';
 				int moveVal = miniMax(board, 0, false);
-				board[i][j] = '_';
+				board[i][j] = ' ';
 				if (moveVal > bestVal) {
 					bestVal = moveVal;
 					bestMove.row = i;
@@ -363,11 +374,11 @@ int miniMax(char* board[size], int depth, bool isMaximizing) {
 		{
 			for (int j = 0; j < size; j++) 
 			{
-				if (board[i][j] == '_') 
+				if (board[i][j] == ' ') 
 				{
 					board[i][j] = 'X';
 					bestVal = std::max(bestVal, miniMax(board, depth + 1, false));
-					board[i][j] = '_';
+					board[i][j] = ' ';
 				}
 				
 			}
@@ -382,11 +393,11 @@ int miniMax(char* board[size], int depth, bool isMaximizing) {
 		{
 			for (int j = 0; j < size; j++) 
 			{
-				if (board[i][j] == '_') 
+				if (board[i][j] == ' ') 
 				{
 					board[i][j] = 'O';
 					bestVal = std::min(bestVal, miniMax(board, depth + 1, true));
-					board[i][j] = '_';
+					board[i][j] = ' ';
 				}
 				
 			}
@@ -402,7 +413,7 @@ void initBoard(char* board[size], int size)
 	{
 		for (int j = 0; j < size; j++) 
 		{
-			board[i][j] = '_';
+			board[i][j] = ' ';
 		}
 	}
 }
@@ -412,7 +423,7 @@ bool isMovesLeft(char* board[size], int size) {
 	{
 		for (int j = 0; j < size; j++) 
 		{
-			if (board[i][j] == '_') 
+			if (board[i][j] == ' ') 
 			{
 				return false;
 			}
